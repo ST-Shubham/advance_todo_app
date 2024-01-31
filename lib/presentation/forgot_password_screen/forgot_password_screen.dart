@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:todo_app/core/app_export.dart';
 import 'package:todo_app/services/auth/auth_exceptions.dart';
 import 'package:todo_app/services/auth/bloc/auth_bloc.dart';
 import 'package:todo_app/services/auth/bloc/auth_event.dart';
 import 'package:todo_app/services/auth/bloc/auth_state.dart';
+import 'package:todo_app/theme/theme_helper.dart';
 import 'package:todo_app/utils/dialogs/error_dialog.dart';
-import 'package:todo_app/widgets/app_bar/appbar_leading_iconbutton.dart';
-import 'package:todo_app/widgets/app_bar/appbar_title.dart';
 import 'package:todo_app/widgets/app_bar/custom_app_bar.dart';
 import 'package:todo_app/widgets/custom_elevated_button.dart';
 import 'package:todo_app/widgets/custom_text_form_field.dart';
@@ -22,15 +20,15 @@ class ForgotPasswordScreen extends StatelessWidget {
     return BlocListener<AuthBloc, AuthState>(
       listener: (context, state) async {
         if (state is AuthStateNeedVerification) {
-          if (state.exception is UserNotLoggedInAuthException) {
+          if (state.exception is InvalidEmailAuthException) {
             await showErrorDialog(
               context,
-              "Critical Error: User Not Logged In",
+              "Please enter a valid email-id",
             );
-          } else if (state.exception is EmailNotVerifiedAuthException) {
+          } else if (state.exception is UserNotFoundAuthException) {
             await showErrorDialog(
               context,
-              "Email not Verified",
+              "User Not Found",
             );
           } else if (state.exception is GenericAuthException) {
             await showErrorDialog(
@@ -50,15 +48,12 @@ class ForgotPasswordScreen extends StatelessWidget {
                 key: _formKey,
                 child: Container(
                   width: double.maxFinite,
-                  padding: EdgeInsets.symmetric(horizontal: 31, vertical: 22),
+                  padding: EdgeInsets.symmetric(horizontal: 32),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       _buildPageHeader(context),
-                      SizedBox(height: 30),
-                      Text("Forgot Password",
-                          style: theme.textTheme.titleMedium),
-                      SizedBox(height: 45),
+                      SizedBox(height: 40),
                       CustomTextFormField(
                           controller: emailController,
                           hintText: "Your Email",
@@ -79,7 +74,8 @@ class ForgotPasswordScreen extends StatelessWidget {
                             ),
                           ),
                         ),
-                      )
+                      ),
+                      SizedBox(height: 20),
                     ],
                   ),
                 ),
@@ -95,23 +91,27 @@ class ForgotPasswordScreen extends StatelessWidget {
   /// Section Widget
   PreferredSizeWidget _buildAppBar(BuildContext context) {
     return CustomAppBar(
-      leadingWidth: 56,
-      leading: AppbarLeadingIconbutton(
-        imagePath: ImageConstant.imgArrowLeft,
-        margin: EdgeInsets.only(left: 32, top: 14, bottom: 17),
-        onTap: () {
-          context.read<AuthBloc>().add(const AuthEventLogout());
+      context: context,
+      leadingWidth: 52,
+      leading: IconButton(
+        icon: Icon(
+          Icons.arrow_back_ios_new,
+          color: Colors.black,
+        ),
+        onPressed: () {
+          onTapArrowLeft(context);
         },
       ),
-      actions: [
-        AppbarTitle(
-          text: "Forgot Password",
-          margin: EdgeInsets.symmetric(
-            horizontal: 35,
-            vertical: 14,
+      title: Padding(
+        padding: const EdgeInsets.only(right: 10.0),
+        child: Align(
+          alignment: Alignment.topRight,
+          child: Text(
+            "Forgot Password",
+            style: TextStyle(color: Colors.black),
           ),
         ),
-      ],
+      ),
     );
   }
 
@@ -120,22 +120,25 @@ class ForgotPasswordScreen extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        Text("Forgot Password?",
+            style: theme.textTheme.displaySmall!.copyWith(height: 1.29)),
+        SizedBox(height: 60),
         Container(
           width: 262,
           margin: EdgeInsets.only(right: 48),
           child: Text(
-            "Helping others means helping yourself. ",
+            "Don't Worry",
             maxLines: 3,
             overflow: TextOverflow.ellipsis,
-            style: theme.textTheme.displaySmall!.copyWith(height: 1.29),
+            style: theme.textTheme.titleMedium,
           ),
         ),
-        SizedBox(height: 10),
+        SizedBox(height: 5),
         Container(
           width: 245,
           margin: EdgeInsets.only(right: 65),
           child: Text(
-            "If you are always helping others you are helping yourself too",
+            "Please Enter your email to receive a password reset link.",
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
             style: theme.textTheme.labelLarge!.copyWith(
@@ -158,4 +161,10 @@ class ForgotPasswordScreen extends StatelessWidget {
       },
     );
   }
+}
+
+onTapArrowLeft(BuildContext context) {
+  context.read<AuthBloc>().add(
+        const AuthEventShouldLogin(),
+      );
 }

@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:todo_app/core/app_export.dart';
+import 'package:todo_app/core/utils/image_constant.dart';
 import 'package:todo_app/services/auth/bloc/auth_bloc.dart';
 import 'package:todo_app/services/auth/bloc/auth_state.dart';
+import 'package:todo_app/theme/app_decoration.dart';
+import 'package:todo_app/theme/custom_text_style.dart';
+import 'package:todo_app/theme/theme_helper.dart';
 import 'package:todo_app/widgets/custom_elevated_button.dart';
 import 'package:todo_app/widgets/custom_icon_button.dart';
+import 'package:todo_app/widgets/custom_image_view.dart';
 import 'package:todo_app/widgets/custom_text_form_field.dart';
 
 // ignore_for_file: must_be_immutable
@@ -126,10 +130,10 @@ class WishListScreen extends StatelessWidget {
 
   /// Navigates to the signupScreen when the action is triggered.
   onTapMakeAWishList(BuildContext context) {
-    Navigator.pushNamedAndRemoveUntil(
-      context,
-      AppRoutes.signupScreen,
-      (_) => false,
-    );
+    // Navigator.pushNamedAndRemoveUntil(
+    //   context,
+    //   AppRoutes.signupScreen,
+    //   (_) => false,
+    // );
   }
 }

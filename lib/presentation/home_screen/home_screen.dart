@@ -1,5 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:todo_app/core/app_export.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:todo_app/core/utils/image_constant.dart';
+import 'package:todo_app/services/auth/bloc/auth_bloc.dart';
+import 'package:todo_app/services/auth/bloc/auth_event.dart';
+import 'package:todo_app/theme/app_decoration.dart';
+import 'package:todo_app/theme/custom_text_style.dart';
+import 'package:todo_app/theme/theme_helper.dart';
+import 'package:todo_app/utils/dialogs/logout_dialog.dart';
+import 'package:todo_app/widgets/custom_image_view.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key})
@@ -20,13 +28,63 @@ class HomeScreen extends StatelessWidget {
           ),
           child: Column(
             children: [
-              SizedBox(height: 47),
-              _buildHomeOption(context),
-              SizedBox(height: 13),
-              _buildHomeOption1(context),
-              SizedBox(height: 13),
-              _buildHomeOption2(context),
-              SizedBox(height: 5),
+              SizedBox(height: 80),
+              Text(
+                "Home",
+                style: theme.textTheme.displaySmall!.copyWith(height: 1.29),
+              ),
+              SizedBox(height: 60),
+              SizedBox(height: 100),
+              _buildHomeOption(
+                context: context,
+                decoration: AppDecoration.fillSecondaryContainer.copyWith(
+                  borderRadius: BorderRadiusStyle.roundedBorder14,
+                ),
+                iconData: Icons.task_alt_rounded,
+                text: "Goals",
+                style: CustomTextStyles.titleMediumSecondaryContainer,
+                onTap: () {},
+              ),
+              SizedBox(height: 20),
+              _buildHomeOption(
+                context: context,
+                text: "Tasks",
+                decoration: AppDecoration.fillDeepPurpleA.copyWith(
+                  borderRadius: BorderRadiusStyle.roundedBorder14,
+                ),
+                iconData: Icons.task_rounded,
+                style: CustomTextStyles.titleMediumDeeppurpleA400,
+              ),
+              SizedBox(height: 20),
+              _buildHomeOption(
+                context: context,
+                decoration: AppDecoration.fillPrimary.copyWith(
+                  borderRadius: BorderRadiusStyle.roundedBorder14,
+                ),
+                iconData: Icons.book,
+                text: "Notes",
+                style: CustomTextStyles.titleMediumPrimary,
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              _buildHomeOption(
+                context: context,
+                decoration: AppDecoration.fillTertiaryContainer.copyWith(
+                  borderRadius: BorderRadiusStyle.roundedBorder14,
+                ),
+                iconData: Icons.logout,
+                text: "Logout",
+                style: CustomTextStyles.titleMediumBlack900,
+                onTap: () async {
+                  final shouldLogOut = await showLogOutDialog(context);
+                  if (shouldLogOut) {
+                    context.read<AuthBloc>().add(
+                          const AuthEventLogout(),
+                        );
+                  }
+                },
+              ),
             ],
           ),
         ),
@@ -35,146 +93,63 @@ class HomeScreen extends StatelessWidget {
   }
 
   /// Section Widget
-  Widget _buildHomeOption(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.only(left: 4),
-      padding: EdgeInsets.symmetric(
-        horizontal: 28,
-        vertical: 16,
-      ),
-      decoration: AppDecoration.fillSecondaryContainer.copyWith(
-        borderRadius: BorderRadiusStyle.roundedBorder14,
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          CustomImageView(
-            imagePath: ImageConstant.imgUser,
-            height: 18,
-            width: 20,
-            margin: EdgeInsets.symmetric(vertical: 4),
+  Widget _buildHomeOption({
+    required BuildContext context,
+    Decoration? decoration,
+    IconData? iconData,
+    required String text,
+    TextStyle? style,
+    void onTap() = empty,
+  }) {
+    return Flexible(
+      child: GestureDetector(
+        child: Container(
+          margin: EdgeInsets.only(left: 4),
+          padding: EdgeInsets.symmetric(
+            horizontal: 28,
+            vertical: 16,
           ),
-          Spacer(
-            flex: 45,
+          decoration: decoration,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(
+                iconData,
+                size: 20,
+              ),
+              Spacer(
+                flex: 45,
+              ),
+              Padding(
+                padding: EdgeInsets.only(top: 3),
+                child: Text(
+                  text,
+                  style: style,
+                ),
+              ),
+              Spacer(
+                flex: 54,
+              ),
+              CustomImageView(
+                imagePath: ImageConstant.imgStroke1,
+                height: 6,
+                width: 5,
+                radius: BorderRadius.circular(
+                  2,
+                ),
+                margin: EdgeInsets.only(
+                  top: 10,
+                  right: 5,
+                  bottom: 10,
+                ),
+              ),
+            ],
           ),
-          Padding(
-            padding: EdgeInsets.only(top: 3),
-            child: Text(
-              "Personality",
-              style: CustomTextStyles.titleMediumSecondaryContainer,
-            ),
-          ),
-          Spacer(
-            flex: 54,
-          ),
-          CustomImageView(
-            imagePath: ImageConstant.imgStroke1,
-            height: 6,
-            width: 5,
-            radius: BorderRadius.circular(
-              2,
-            ),
-            margin: EdgeInsets.only(
-              top: 10,
-              right: 5,
-              bottom: 10,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  /// Section Widget
-  Widget _buildHomeOption1(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.only(left: 4),
-      padding: EdgeInsets.symmetric(
-        horizontal: 28,
-        vertical: 16,
-      ),
-      decoration: AppDecoration.fillDeepPurpleA.copyWith(
-        borderRadius: BorderRadiusStyle.roundedBorder14,
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          CustomImageView(
-            imagePath: ImageConstant.imgFile,
-            height: 20,
-            width: 17,
-            margin: EdgeInsets.only(
-              left: 3,
-              top: 3,
-              bottom: 3,
-            ),
-          ),
-          Spacer(
-            flex: 43,
-          ),
-          Padding(
-            padding: EdgeInsets.only(top: 3),
-            child: Text(
-              "Work Today's",
-              style: CustomTextStyles.titleMediumDeeppurpleA400,
-            ),
-          ),
-          Spacer(
-            flex: 56,
-          ),
-          CustomImageView(
-            imagePath: ImageConstant.imgStroke1DeepPurpleA400,
-            height: 6,
-            width: 5,
-            radius: BorderRadius.circular(
-              2,
-            ),
-            margin: EdgeInsets.symmetric(vertical: 10),
-          ),
-        ],
-      ),
-    );
-  }
-
-  /// Section Widget
-  Widget _buildHomeOption2(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.only(left: 4),
-      padding: EdgeInsets.symmetric(
-        horizontal: 26,
-        vertical: 15,
-      ),
-      decoration: AppDecoration.fillPrimary.copyWith(
-        borderRadius: BorderRadiusStyle.roundedBorder14,
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          CustomImageView(
-            imagePath: ImageConstant.imgSearch,
-            height: 20,
-            width: 19,
-            margin: EdgeInsets.only(
-              left: 3,
-              top: 4,
-              bottom: 4,
-            ),
-          ),
-          Spacer(
-            flex: 45,
-          ),
-          Padding(
-            padding: EdgeInsets.only(top: 4),
-            child: Text(
-              "Setting",
-              style: CustomTextStyles.titleMediumPrimary,
-            ),
-          ),
-          Spacer(
-            flex: 54,
-          ),
-        ],
+        ),
+        onTap: onTap,
       ),
     );
   }
 }
+
+void empty() {}

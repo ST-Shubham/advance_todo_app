@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:todo_app/core/app_export.dart';
 
 // ignore: must_be_immutable
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
+  final BuildContext context;
+
   CustomAppBar({
     Key? key,
     this.height,
@@ -11,6 +12,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     this.title,
     this.centerTitle,
     this.actions,
+    required this.context,
   }) : super(
           key: key,
         );
@@ -44,12 +46,8 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   }
 
   @override
-  // TODO: implement preferredSize
-  Size get preferredSize => throw UnimplementedError();
-
-  // @override
-  // Size get preferredSize => Size(
-  //       SizeUtils.width,
-  //       height ?? 56,
-  //     );
+  Size get preferredSize => Size(
+        MediaQuery.of(context).size.width,
+        height ?? 56,
+      );
 }

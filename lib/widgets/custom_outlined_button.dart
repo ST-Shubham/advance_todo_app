@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:todo_app/core/app_export.dart';
 import 'package:todo_app/widgets/base_button.dart';
 
 class CustomOutlinedButton extends BaseButton {

@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:todo_app/core/app_export.dart';
+import 'package:todo_app/core/utils/image_constant.dart';
 import 'package:todo_app/services/auth/auth_exceptions.dart';
 import 'package:todo_app/services/auth/bloc/auth_bloc.dart';
 import 'package:todo_app/services/auth/bloc/auth_event.dart';
 import 'package:todo_app/services/auth/bloc/auth_state.dart';
+import 'package:todo_app/theme/custom_button_style.dart';
+import 'package:todo_app/theme/custom_text_style.dart';
+import 'package:todo_app/theme/theme_helper.dart';
 import 'package:todo_app/utils/dialogs/error_dialog.dart';
 import 'package:todo_app/widgets/custom_elevated_button.dart';
+import 'package:todo_app/widgets/custom_image_view.dart';
 
 class LoginOrSignupScreen extends StatelessWidget {
   const LoginOrSignupScreen({Key? key}) : super(key: key);
@@ -19,7 +23,7 @@ class LoginOrSignupScreen extends StatelessWidget {
             is GenericAuthException) {
           await showErrorDialog(
             context,
-            "Some Error Occured",
+            "Authentication Error",
           );
         }
       },
@@ -50,8 +54,8 @@ class LoginOrSignupScreen extends StatelessWidget {
                 CustomElevatedButton(
                     text: "Login",
                     buttonStyle: CustomButtonStyles.fillDeepOrange,
-                    // buttonTextStyle:
-                    //     CustomTextStyles.titleSmallSecondaryContainer,
+                    buttonTextStyle:
+                        CustomTextStyles.titleSmallSecondaryContainer,
                     onPressed: () {
                       onTapLogin(context);
                     }),

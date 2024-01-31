@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../core/app_export.dart';
+import 'package:todo_app/theme/theme_helper.dart';
 
 /// A collection of pre-defined text styles for customizing text appearance,
 /// categorized by different font families and weights.
@@ -81,6 +81,10 @@ class CustomTextStyles {
   static get titleSmallSecondaryContainer =>
       theme.textTheme.titleSmall!.copyWith(
         color: theme.colorScheme.secondaryContainer.withOpacity(1),
+      );
+  static get titleSmallSecondaryContainer_1 =>
+      theme.textTheme.titleSmall!.copyWith(
+        color: appTheme.deepPurpleA400,
       );
   static get titleSmallWhiteA700 => theme.textTheme.titleSmall!.copyWith(
         color: appTheme.whiteA700,

@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:todo_app/services/cloud/cloud_note.dart';
-import 'package:todo_app/services/cloud/cloud_storage_constants.dart';
+import 'package:todo_app/services/cloud/notes_and_summary/cloud_note.dart';
+import 'package:todo_app/services/cloud/notes_and_summary/cloud_storage_constants.dart';
 import 'package:todo_app/services/cloud/cloud_storage_exceptions.dart';
 
 class FirebaseCloudStorage {

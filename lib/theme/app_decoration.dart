@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:todo_app/core/app_export.dart';
+import 'package:todo_app/theme/theme_helper.dart';
 
 class AppDecoration {
   // Fill decorations
@@ -14,6 +14,9 @@ class AppDecoration {
       );
   static BoxDecoration get fillSecondaryContainer => BoxDecoration(
         color: theme.colorScheme.secondaryContainer,
+      );
+  static BoxDecoration get fillTertiaryContainer => BoxDecoration(
+        color: Colors.green.shade50,
       );
   static BoxDecoration get fillWhiteA => BoxDecoration(
         color: appTheme.whiteA700,
